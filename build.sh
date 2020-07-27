@@ -11,17 +11,18 @@
 # This script takes the various individual code pieces and brings them
 # together.
 
-outF='log4sh.new'
+outF='../log4sh'
 
+cd src || exit
 echo "appending code from log4sh_base"
 cat 'log4sh_base' >${outF}
 
 for appender in log4sh_*Appender; do
-  echo "appending code from ${appender}"
-  echo >>${outF}
-  echo '#==============================================================================' >>${outF}
-  # strip top of header and append the rest
-  sed '1,7d' ${appender} >>${outF}
+    echo "appending code from ${appender}"
+    echo >>${outF}
+    echo '#==============================================================================' >>${outF}
+    # strip top of header and append the rest
+    sed '1,7d' ${appender} >>${outF}
 done
 
 echo ${outF} generated.
