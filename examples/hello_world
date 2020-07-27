@@ -5,11 +5,11 @@
 #
 
 # load log4sh
-if [ -r log4sh ]; then
-  LOG4SH_CONFIGURATION='none' . ./log4sh
+if [ -r ../log4sh ]; then
+    LOG4SH_CONFIGURATION='none' . ../log4sh
 else
-  echo "ERROR: could not load (log4sh)" >&2
-  exit 1
+    echo "ERROR: could not load (log4sh)" >&2
+    exit 1
 fi
 
 # change the default message level from ERROR to INFO
