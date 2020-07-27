@@ -49,7 +49,7 @@ __log4sh_trapsFile=''  # previously defined traps
 
 _LOG4SH_LINENO_='eval log4sh_lineno_=""; if [ "${1:-}" = "--lineno" ]; then [ -n "$2" ] && log4sh_lineno_="$2"; shift 2; fi'
 
-# wrappers for interal logging to include line numbers
+# wrappers for internal logging to include line numbers
 _LOG4SH_DEBUG_='eval _log4sh_debug --lineno "${LINENO:-}"'
 _LOG4SH_INFO_='eval _log4sh_info --lineno "${LINENO:-}"'
 _LOG4SH_ERROR_='eval _log4sh_error --lineno "${LINENO:-}"'
@@ -68,6 +68,26 @@ _LOG4SH_CLEANUP_LOGGER_APPENDER_='eval unset log4sh_appender_ log4sh_fqAppender_
 #-----------------------------------------------------------------------------
 # log4sh functions
 #
+
+logger_setLevel()
+{
+  ${__LOG4SH_TRACE_CALL} logger_setLevel \
+      $# -ne 1 ${BASH_LINENO:-} || return ${LOG4SH_FALSE}
+
+  lsl_level=$1
+  __log4sh_return=${LOG4SH_TRUE}
+
+  lsl_int=`logger_level_toInt ${lsl_level}`
+  if [ $? -eq ${LOG4SH_TRUE} ]; then
+    __log4shLevel=${lsl_int}
+  else
+    _log4sh_error "attempt to set invalid log level '${lsl_level}'"
+    __log4sh_return=${LOG4SH_ERROR}
+  fi
+
+  unset lsl_int lsl_level
+  return ${__log4sh_return}
+}
 
 # Common logging function for log4sh itself.
 #
